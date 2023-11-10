@@ -1,0 +1,20 @@
+.card-content {
+    height: 20px; /* You can adjust the height as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* card.css */
+.heart-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color:"red";
+  cursor: pointer;
+}
+
+.card:hover{
+
+  border: 2px solid rgb(0, 21, 255);
+
+}

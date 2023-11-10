@@ -1,0 +1,16 @@
+/* divBoxLayout.css */
+
+.box {
+    background-color: #f30d0d;
+    margin: 2vw;
+    padding: 2vw;
+    height: 20vw;
+    width: 20vw;
+
+  }
+  
+  .inner-box {
+    background-color: #fff;
+    padding: 10px;
+  }
+  
