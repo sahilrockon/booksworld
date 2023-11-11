@@ -1,9 +1,9 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 5000;
 
 const uri = "mongodb+srv://sahilbisht:sahil890@cluster0.p55ndvv.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
@@ -47,6 +47,6 @@ app.post('/register', async (req, res) => {
   });
   
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log("Server is running on port");
 });
