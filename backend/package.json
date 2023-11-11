@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js",
-    "build":"npm i"
-    },
+    "start": "node index.js",
+    "build": "npm i"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,5 +17,9 @@
     "express": "^4.18.2",
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3"
   }
 }
