@@ -16,7 +16,7 @@ export default function Login()
     e.preventDefault();
     try {
       let result = await fetch(
-        'http://localhost:5000/register',
+        'https://abc-hrad.onrender.com/register',
         {
           method: 'post',
           body: JSON.stringify({ first,last, email,password,liked}),
