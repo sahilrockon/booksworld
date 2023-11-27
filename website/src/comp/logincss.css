@@ -1,0 +1,23 @@
+/* CSS for loader and background blur */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    z-index: 9999; /* Ensure it's above other elements */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Apply blur effect to the background when loader is active */
+  body {
+    transition: filter 0.3s ease-in-out;
+  }
+  
+  body.blur {
+    filter: blur(5px); /* Adjust the amount of blur as needed */
+  }
+  

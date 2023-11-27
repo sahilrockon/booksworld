@@ -17,8 +17,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Popover from '@mui/material/Popover'; // Step 1: Import Popover
 import {useNavigate} from 'react-router-dom';
 import WelcomeMessage from './wlcm';
@@ -27,8 +27,10 @@ import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { context } from './context';
+import Tooltip from '@mui/material/Tooltip';
+import HomeIcon from '@mui/icons-material/Home';
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -141,20 +143,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 export default function MiniDrawer() {
-
+  
   //this is main app data 
-const {data,setdata}=React.useContext(context);
+const {setdata,setGenre,setSearchByGenre,user,setByLiked,setUser,setEmaill,setPass,setLiked}=React.useContext(context);
 
-// const[txt,settxt]=React.useState();
 
-/* const HandleChange=(event)=>{
-settxt(event.target.value);
-
-}
-*/
 
 
   const handleKeyPress = (event) => {
+
+
+
     if (event.key === 'Enter') {
       // Call your method here when Enter key is pressed
       // Replace the alert with your desired method
@@ -164,19 +163,27 @@ settxt(event.target.value);
     }  
     else 
     {
+      setByLiked(false);
       setdata(event.target.value);
-    
+      setSearchByGenre(false);
     }
   }
   };
 
 
-    const navigate=useNavigate();
+  const navigate=useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [isMouseOverIcon, setIsMouseOverIcon] = React.useState(false);
+
+
   const [loginOptionsAnchor, setLoginOptionsAnchor] = React.useState(null); // Step 2: State for anchor element
   const isLoginOptionsOpen = Boolean(loginOptionsAnchor);
 
+  const [filterOptionsAnchor, setfilterOptionsAnchor] = React.useState(null); 
+  const isfilterOptionsOpen = Boolean(filterOptionsAnchor);
+
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -194,6 +201,25 @@ settxt(event.target.value);
   const closeLoginOptions = () => {
     setLoginOptionsAnchor(null);
   };
+
+
+  const closeFilterOption=()=>{
+setfilterOptionsAnchor(null);
+  }
+
+  const openFilterOptioon=(event)=>{
+    setfilterOptionsAnchor(event.currentTarget);
+  }
+  
+
+  const handleOptionClick = (value) => {
+    setSearchByGenre(true);
+    setGenre(value);
+    closeFilterOption();
+    setByLiked(false);
+
+  };
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -237,7 +263,7 @@ settxt(event.target.value);
           <IconButton color="inherit" onClick={openLoginOptions}>
             <AccountCircleIcon />
             <Typography variant="body1" style={{ marginLeft: '4px', cursor: 'pointer'}}>
-               Login
+              {user}
             </Typography>
  
 
@@ -257,9 +283,6 @@ settxt(event.target.value);
             }}
           >
         
-
-
-
             <Box sx={{ p: 2 }}>
 
               <List>
@@ -269,9 +292,19 @@ settxt(event.target.value);
                 <ListItemButton onClick={()=>navigate('/login')}>
                   <ListItemText primary="New User" />
                 </ListItemButton>
-                <ListItemButton onClick={() => console.log('Option 3')}>
-                  <ListItemText primary="Logout" />
-                </ListItemButton>
+
+                {
+                user!='LOGIN' &&(
+                <ListItemButton>
+                  <ListItemText primary="Logout" onClick ={()=>{
+                  setUser('LOGIN');
+                  setPass('');
+                  setEmaill('');
+                  setLiked([]);
+                     
+                  }} />
+                </ListItemButton>) }
+
               </List>
             </Box>
           </Popover>
@@ -286,8 +319,8 @@ settxt(event.target.value);
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+
+        <ListItem key="home" disablePadding sx={{ display: 'block' }} onClick={()=>{setByLiked(false)}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -296,46 +329,169 @@ settxt(event.target.value);
                   color:'white'
                 }}
               >
-                <ListItemIcon
-                  sx={{
+                <Tooltip title="Home" placement='right'   sx={{
+                    fontSize: '10vw'
+                  }}>
+                  {/* Add your ListItemIcon here */}
+                  <ListItemIcon        sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
+                  }}>
+               <HomeIcon sx={{color:'white'}}/>
+                  </ListItemIcon>
+                </Tooltip>
+                <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }}/>
+              </ListItemButton>
+               </ListItem>
+
+
+
+        <IconButton
+      color="inherit"
+      onClick={openFilterOptioon}
+      onMouseEnter={() => setIsMouseOverIcon(true)}
+      onMouseLeave={() => setIsMouseOverIcon(false)}
+      sx={{
+        minHeight: 48,
+        px: 2.5,
+        color: 'white',
+      }}
+    >
+      <Tooltip
+        title={!open && isMouseOverIcon ? 'Filter' : ''}
+        placement="right"
+        arrow
+        open={!open && isMouseOverIcon}
+        disableHoverListener={open}
+        sx={{
+          fontSize: '10vw',
+        }}
+      >
+        <span>
+          <Typography variant="body1" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            <AccountCircleIcon /> {/* Always display the AccountCircleIcon */}
+            {open &&  <span style={{ marginLeft: '22px' }}>Filter</span>} 
+          </Typography>
+        </span>
+      </Tooltip>
+    </IconButton>
+
+          {/* Step 5: Set anchor element for login options popover */}
+          <Popover
+            open={isfilterOptionsOpen}
+            anchorEl={filterOptionsAnchor}
+            onClose={closeFilterOption}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+        
+
+
+            <Box sx={{ p: 4 }}>
+              <List>
+                {/* Button to set 'data' to 'Romance' */}
+                <ListItemButton
+                  onClick={() => handleOptionClick('Romance')}
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    '&:not(:last-child)': {
+                      marginBottom: 2, // Add margin bottom for separation
+                    },
+                    '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    },
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText primary="Romance" />
+                </ListItemButton>
+                {/* Button to set 'data' to 'Fantasy' */}
+                <ListItemButton
+                  onClick={() => handleOptionClick('Fantasy')}
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    '&:not(:last-child)': {
+                      marginBottom: 2, // Add margin bottom for separation
+                    },
+                    '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    },
+                  }}
+                >
+                  <ListItemText primary="Fantasy" />
+                </ListItemButton>
+                {/* Button to set 'data' to 'Horror' */}
+                <ListItemButton
+                  onClick={() => handleOptionClick('Horror')}
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    '&:not(:last-child)': {
+                      marginBottom: 2, // Add margin bottom for separation
+                    },
+                    '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    },
+                  }}
+                >
+                  <ListItemText primary="Horror" />
+                </ListItemButton>
+                {/* Button to set 'data' to 'Thriller' */}
+                <ListItemButton
+                  onClick={() => handleOptionClick('Thriller')}
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    '&:not(:last-child)': {
+                      marginBottom: 2, // Add margin bottom for separation
+                    },
+                    '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    },
+                  }}
+                >
+                  <ListItemText primary="Thriller" />
+                </ListItemButton>
+              </List>
+            </Box>
+          </Popover>
+
+             <ListItem key="Liked" disablePadding sx={{ display: 'block' }} onClick={()=>{setByLiked(true)}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:'white'
+                }}
+              >
+                <Tooltip title="Liked" placement='right'   sx={{
+                    fontSize: '10vw'
+                  }}>
+                  {/* Add your ListItemIcon here */}
+                  <ListItemIcon        sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+               <FavoriteIcon sx={{color:'red'}}/>
+                  </ListItemIcon>
+                </Tooltip>
+                <ListItemText primary="Liked" sx={{ opacity: open ? 1 : 0 }}/>
               </ListItemButton>
-            </ListItem>
-          ))}
+               </ListItem>
+          
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:'white'
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+ 
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />

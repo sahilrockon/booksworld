@@ -13,13 +13,24 @@ function App() {
 
 
   const[data,setdata]=useState("Chetan bhagat");
+  const[genre,setGenre]=useState("");
+  const[searchByGenre ,setSearchByGenre]=useState(false);
+  const[user , setUser]=useState("LOGIN");
+  const[liked,setLiked]=useState([]);
+  const[byLiked,setByLiked]=useState(false);
+  const[email ,setEmaill]= useState('');
+  const[pass ,setPass]= useState('');
+
+  
 
   return (
-<context.Provider value={{data,setdata}} >
+<context.Provider value={{data,setdata,genre,setGenre,searchByGenre,setSearchByGenre,user,setUser,
+  liked,setLiked,byLiked,setByLiked,email,setEmaill,pass,setPass}} >
 <BrowserRouter>
 <Routes>
-  <Route path='/' element={<><MiniDrawer></MiniDrawer> </>}></Route>
+  <Route path='/' element={<>{user}<MiniDrawer ></MiniDrawer> </>}></Route>
   <Route path='/login' element={<><MiniDrawer2 name="Login"></MiniDrawer2><Login/></>} />
+
   <Route path='/Signin' element={<><Sign></Sign><MiniDrawer2 name="Sign In"></MiniDrawer2></>}></Route>
  </Routes>
  <br/><br/>

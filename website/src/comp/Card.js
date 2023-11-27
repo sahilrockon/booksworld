@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import defaultBook from "./img/default.jpg";
 import { BiLinkExternal } from "react-icons/bi";
 import "./card.css";
+import { context } from './context';
+import axios from 'axios';
 
-export default function Card({ id, volumeInfo }) {
+export default function Card({ volumeInfo, id }) {
   let { title, authors, publisher, previewLink, imageLinks } = volumeInfo;
 
-  const [heartColor, setHeartColor] = useState("black");
+  const { liked = [], setLiked, email, pass } = useContext(context);
+
+  const isLiked = liked.includes(id);
+
+  const [heartColor, setHeartColor] = useState(isLiked ? "red" : "black");
 
   // setting up default values for volume info data
   title = title || "Title is not available";
@@ -27,10 +33,43 @@ export default function Card({ id, volumeInfo }) {
     },
   };
 
-  const handleHeartClick = () => {
-    setHeartColor(heartColor === "black" ? "red" : "black");
-    console.log(id);
+  const handleLikeContent = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/likeContent', {
+        email,
+        pass,
+        id,
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        console.log(userData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle errors or display an error message to the user
+    }
   };
+
+  useEffect(() => {
+    const updatedHeartColor = liked.includes(id) ? "red" : "black";
+    setHeartColor(updatedHeartColor);
+  }, [id, liked]);
+
+  const handleHeartClick = () => {
+    const isLiked = liked.includes(id);
+
+    if (!isLiked) {
+      setLiked([...liked, id]);
+    } else {
+      const updatedLiked = liked.filter((bookId) => bookId !== id);
+      setLiked(updatedLiked);
+    }
+
+    handleLikeContent();
+    setHeartColor(heartColor === "black" ? "red" : "black");
+  };
+
 
   return (
     <>

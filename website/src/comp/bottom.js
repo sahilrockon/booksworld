@@ -18,9 +18,9 @@ export default function SimpleBottomNavigation() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="LinkedIn" icon={<LinkedInIcon />} />
+        <BottomNavigationAction label="LinkedIn"  icon={<LinkedInIcon />} />
         <BottomNavigationAction label="Instagram" icon={<InstagramIcon />} />
-        <BottomNavigationAction label="GitHub" icon={<GitHubIcon />} />
+        <BottomNavigationAction onClick={()=> window.open('https:\\github.com/sahilrockon' ,'_blank')} label="GitHub" icon={<GitHubIcon />} />
       </BottomNavigation>
     </Box>
   );
