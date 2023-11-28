@@ -20,12 +20,13 @@ function App() {
   const[byLiked,setByLiked]=useState(false);
   const[email ,setEmaill]= useState('');
   const[pass ,setPass]= useState('');
+  const[api,setapi]=useState('http://localhost:4000');
 
   
 
   return (
 <context.Provider value={{data,setdata,genre,setGenre,searchByGenre,setSearchByGenre,user,setUser,
-  liked,setLiked,byLiked,setByLiked,email,setEmaill,pass,setPass}} >
+  liked,setLiked,byLiked,setByLiked,email,setEmaill,pass,setPass,api}} >
 <BrowserRouter>
 <Routes>
   <Route path='/' element={<>{user}<MiniDrawer ></MiniDrawer> </>}></Route>

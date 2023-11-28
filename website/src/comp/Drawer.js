@@ -16,7 +16,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Popover from '@mui/material/Popover'; // Step 1: Import Popover
@@ -29,6 +28,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { context } from './context';
 import Tooltip from '@mui/material/Tooltip';
 import HomeIcon from '@mui/icons-material/Home';
+import FilterVintageIcon from '@mui/icons-material/FilterVintage';
+
 
 const drawerWidth = 150;
 
@@ -220,6 +221,23 @@ setfilterOptionsAnchor(null);
 
   };
 
+  const loginPage=()=>
+  {
+    navigate('/signin');
+  }
+
+  const LikedFunction=()=>
+  {
+    if(user==='LOGIN')
+    {
+       loginPage();
+    }
+    else 
+    {
+        setByLiked(true);
+    }
+
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -240,7 +258,7 @@ setfilterOptionsAnchor(null);
           >
            
     
-            <MenuIcon />
+            <MenuIcon sx={{fontSize:'5vh'}} />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
           </Typography>
@@ -261,7 +279,7 @@ setfilterOptionsAnchor(null);
     </Search>
 
           <IconButton color="inherit" onClick={openLoginOptions}>
-            <AccountCircleIcon />
+            <AccountCircleIcon sx={{ fontSize:'4vh'}} />
             <Typography variant="body1" style={{ marginLeft: '4px', cursor: 'pointer'}}>
               {user}
             </Typography>
@@ -283,26 +301,36 @@ setfilterOptionsAnchor(null);
             }}
           >
         
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 2 ,backgroundColor:'grey'}}>
 
-              <List>
-                <ListItemButton onClick={() => navigate('/Signin')}>
-                  <ListItemText primary="Already User" />
+              <List >
+                <ListItemButton sx={{backgroundColor:'black',marginBottom:'1vh'  ,'&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    } }}
+                
+                onClick={() => navigate('/Signin')}>
+                  <ListItemText sx={{color:'white'}} primary="Already User" />
                 </ListItemButton>
-                <ListItemButton onClick={()=>navigate('/login')}>
-                  <ListItemText primary="New User" />
+                <ListItemButton sx={{backgroundColor:'black',marginBottom:'1vh' , '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    }}}
+                 onClick={()=>navigate('/login')}>
+                  <ListItemText sx={{color:'white'}}   primary="New User" />
                 </ListItemButton>
 
                 {
-                user!='LOGIN' &&(
-                <ListItemButton>
-                  <ListItemText primary="Logout" onClick ={()=>{
+                user!=='LOGIN' &&(
+                <ListItemButton sx={{backgroundColor:'black' , marginBottom:'1vh', '&:hover': {
+                  backgroundColor: 'blue', // Change background color on hover
+                }}} 
+                onClick ={()=>{
                   setUser('LOGIN');
                   setPass('');
                   setEmaill('');
                   setLiked([]);
                      
-                  }} />
+                  }}>
+                  <ListItemText sx={{color:'white'}}  primary="Logout"  />
                 </ListItemButton>) }
 
               </List>
@@ -338,7 +366,7 @@ setfilterOptionsAnchor(null);
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}>
-               <HomeIcon sx={{color:'white'}}/>
+               <HomeIcon sx={{color:'white',fontSize:'4vh'}}/>
                   </ListItemIcon>
                 </Tooltip>
                 <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }}/>
@@ -359,18 +387,17 @@ setfilterOptionsAnchor(null);
       }}
     >
       <Tooltip
+     
         title={!open && isMouseOverIcon ? 'Filter' : ''}
         placement="right"
         arrow
         open={!open && isMouseOverIcon}
         disableHoverListener={open}
-        sx={{
-          fontSize: '10vw',
-        }}
+      
       >
         <span>
           <Typography variant="body1" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-            <AccountCircleIcon /> {/* Always display the AccountCircleIcon */}
+            <FilterVintageIcon sx={{color:'blue' ,fontSize:'4vh'}} /> {/* Always display the AccountCircleIcon */}
             {open &&  <span style={{ marginLeft: '22px' }}>Filter</span>} 
           </Typography>
         </span>
@@ -464,7 +491,7 @@ setfilterOptionsAnchor(null);
             </Box>
           </Popover>
 
-             <ListItem key="Liked" disablePadding sx={{ display: 'block' }} onClick={()=>{setByLiked(true)}}>
+             <ListItem key="Liked" disablePadding sx={{ display: 'block' }} onClick={LikedFunction}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -482,7 +509,7 @@ setfilterOptionsAnchor(null);
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}>
-               <FavoriteIcon sx={{color:'red'}}/>
+               <FavoriteIcon sx={{color:'red',fontSize:'4vh'}}/>
                   </ListItemIcon>
                 </Tooltip>
                 <ListItemText primary="Liked" sx={{ opacity: open ? 1 : 0 }}/>

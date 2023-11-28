@@ -34,9 +34,9 @@ return(
 
  {liked.length!=0 ?
  (<>
- <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '4vh' ,marginBottom:'3vh'}}>
+ <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '4vh' ,marginBottom:'4vh'}}>
  <div style={{ textAlign: 'center' }}>
-   <h2 style={{ color: 'red' }}>Liked Books</h2>
+   <h2 className=' display-6 fw-bold ls-tight text-danger' style={{ color: 'red' }}>Liked Books</h2>
  </div>
 </div>
   
@@ -50,7 +50,7 @@ return(
     </>
  ):(<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '18vh' }}>
  <div style={{ textAlign: 'center' }}>
-   <h2 style={{ color: 'red' }}>Please Like the Book</h2>
+   <h2 className='display-6 fw-bold ls-tight text-danger' style={{ color: 'red' }}>Please Like the Book</h2>
  </div>
 </div>
 
@@ -68,7 +68,23 @@ return(
 else 
 { 
   return (
-<>
+<> {searchByGenre ? (
+ <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '4vh' ,marginBottom:'4vh'}}>
+ <div style={{ textAlign: 'center' }}>
+   <h2 className="display-6 fw-bold ls-tight text-danger"
+    style={{ color: 'red' }}>Result For  Genre : <span className='text-dark'>{genre}</span> </h2>
+ </div>
+</div>
+
+):(
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '4vh' ,marginBottom:'4vh'}}>
+  <div style={{ textAlign: 'center' }}>
+    <h2 className='display-6 fw-bold ls-tight text-danger' 
+    style={{ color: 'red' }}>Result For :<span className='text-dark'>{data}</span> </h2>
+  </div>
+ </div>
+
+)}
     <div className="container">   
       <div className="row">
       {details.map((book,index) => (

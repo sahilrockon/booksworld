@@ -1,7 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import './logincss.css';
+import { context } from "./context";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+
+
 
 export default function Login() {
+
+
+    const [showPassword, setShowPassword] = useState(false);
+  
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+
+
+
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const [password, setPassword] = useState('');
@@ -14,6 +29,7 @@ export default function Login() {
     first: '',
     last: ''
   });
+  const{api}=useContext(context);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +60,7 @@ export default function Login() {
     setLoading(true);
     const liked=[];
     try {
-      let result = await fetch('http://localhost:4000/register', {
+      let result = await fetch(`${api}/register`, {
         method: 'post',
         body: JSON.stringify({ first, last, email, password,liked }),
         headers: {
@@ -80,58 +96,62 @@ export default function Login() {
           </div>
         </div>
       )}
+<section className="d-flex flex-column justify-content-center align-items-center " style={{ minHeight: '60vh', backgroundColor: '#f0f8ff' }}>
+  <h1 class="my-1 display-6 fw-bold ls-tight text-danger">!!!Welcome!!!</h1>
+  <div className="d-flex justify-content-center align-items-center col-lg-6 mb-5 mb-lg-0">
 
-      <section className="">
-        <div className="px-6 py-2 px-md-2 text-center text-lg-start" style={{backgroundColor: 'hsl(0, 0%, 96%)'}}>
-          <div className="col-lg-4 mb-3 mb-lg-0" style={{float:'left',marginRight:'10vw'}}>
-           
-        <div className="col-lg-4 mb-3 mb-lg-0" style={{float:'left',marginRight:'10vw'}}>
+    
+    <div className="card" style={{ border: '3px solid black' }}>
+      <div className="card-body py-5 px-md-5" style={{ width: '100%', backgroundColor: '#fff' }}>
 
-             <h2 style={{color:'Red',visibility:show}}>Account Created  &#x1F603;</h2>
-
-          <h1 className="my-5 display-3 fw-bold ls-tight">
-            Welcome To  <br />
-            <span className="text-danger">BooKsWorld</span>
-          </h1>
-          <p style={{color: 'hsl(217, 10%, 50.8%)'}}>
-           
-          </p>
-        </div>
-          </div>
-
-          <div className="col-lg-6 mb-5 mb-lg-0" style={{float:'left'}}>
-            <div className="card">
-              <div className="card-body py-5 px-md-5">
                 <form onSubmit={handleOnSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className="form-outline">
-                        <input type="text" id="form3Example1" required className="form-control" value={first} onChange={(e) => { setFirst(e.target.value); setErrors({ ...errors, first: '' }); }} />
-                        <label className="form-label" htmlFor="form3Example1"><b>First Name</b></label>
+                        <input type="text" id="form3Example1" required className="form-control"  placeholder="First Name"  value={first} onChange={(e) => { setFirst(e.target.value); setErrors({ ...errors, first: '' }); }} />
                         {errors.first && <div className="text-danger">{errors.first}</div>}
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
                       <div className="form-outline">
-                        <input type="text" id="form3Example2" required className="form-control" value={last} onChange={(e) => { setLast(e.target.value); setErrors({ ...errors, last: '' }); }} />
-                        <label className="form-label" htmlFor="form3Example2"><b>Last Name</b></label>
+                        <input type="text" id="form3Example2" required className="form-control" placeholder="Last Name"  value={last} onChange={(e) => { setLast(e.target.value); setErrors({ ...errors, last: '' }); }} />
                         {errors.last && <div className="text-danger">{errors.last}</div>}
                       </div>
                     </div>
                   </div>
                   <div className="form-outline mb-4">
-                    <input type="email" id="form3Example3" required className="form-control" value={email} onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: '' }); }} />
-                    <label className="form-label" htmlFor="form3Example3"><b>Email Address</b></label>
+                    <input type="email" id="form3Example3" required className="form-control" placeholder="Email"  value={email} onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: '' }); }} />
                     {errors.email && <div className="text-danger">{errors.email}</div>}
                   </div>
                   <div className="form-outline mb-4">
-                    <input type="password" id="form3Example4" required className="form-control" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} />
-                    <label className="form-label" htmlFor="form3Example4"><b>Password</b></label>
-                    {errors.password && <div className="text-danger">{errors.password}</div>}
-                  </div>
+                <div className="input-group">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="form3Example4"
+                    required
+                    className="form-control"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setErrors({ ...errors, password: '' });
+                    }}
+                  />
+                  <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {errors.password && <div className="text-danger">{errors.password}</div>}
+              </div>
+                  <br/><br/>
                   <button type="submit" className="btn btn-primary btn-block mb-4">
                     Sign up
                   </button>
+                  <br/><br/><br/>
                   <div className="text-center">
                      <button type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-facebook-f"></i>
@@ -144,16 +164,11 @@ export default function Login() {
                   <button type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-twitter"></i>
                   </button>
-
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="fab fa-github"></i>
-                  </button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-        </div>
       </section>
     </>
   );

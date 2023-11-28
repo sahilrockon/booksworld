@@ -23,7 +23,7 @@ export default function Sign()
   const [loading, setLoading] = useState(false);
 
   const[span ,setspan ]= useState('hidden');
-  const {setUser,setLiked,setEmaill,setPass}=useContext(context);
+  const {setUser,setLiked,setEmaill,setPass,api}=useContext(context);
   //const navigate=useNavigate();
 
 
@@ -45,7 +45,7 @@ export default function Sign()
 
 
     try {
-      const response = await fetch('http://localhost:4000/login', {
+      const response = await fetch(`${api}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,10 +97,9 @@ return(
     <div class="container">
       <div class="row gx-lg-5 align-items-center">
         <div class="col-lg-6 mb-5 mb-lg-0">
-          <h1 class="my-5 display-3 fw-bold ls-tight">
+          <h2 class="my-5 display-3 fw-bold ls-tight text-danger">
             Welcome Back!! <br />
-            <span class="text-danger">BooKsWorld</span>
-          </h1>
+          </h2>
           <p style={{color: 'hsl(217, 10%, 50.8%)'}}>
            
           </p>

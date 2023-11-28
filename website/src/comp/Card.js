@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function Card({ volumeInfo, id }) {
   let { title, authors, publisher, previewLink, imageLinks } = volumeInfo;
 
-  const { liked = [], setLiked, email, pass } = useContext(context);
+  const { liked = [], setLiked, email, pass,api } = useContext(context);
 
   const isLiked = liked.includes(id);
 
@@ -35,7 +35,7 @@ export default function Card({ volumeInfo, id }) {
 
   const handleLikeContent = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/likeContent', {
+      const response = await axios.post(`${api}/likeContent`, {
         email,
         pass,
         id,

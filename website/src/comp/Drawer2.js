@@ -13,7 +13,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Popover from '@mui/material/Popover'; // Step 1: Import Popover
 import {useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
-
+import { context } from './context';
 
 
 const drawerWidth = 240;
@@ -25,6 +25,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
+  color:'red',
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
 }));
@@ -56,13 +57,6 @@ export default function MiniDrawer2(props ) {
   const [loginOptionsAnchor, setLoginOptionsAnchor] = React.useState(null); // Step 2: State for anchor element
   const isLoginOptionsOpen = Boolean(loginOptionsAnchor);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   // Step 3: Function to open login options popover
   const openLoginOptions = (event) => {
@@ -73,16 +67,18 @@ export default function MiniDrawer2(props ) {
   const closeLoginOptions = () => {
     setLoginOptionsAnchor(null);
   };
+  const {setdata,setGenre,setSearchByGenre,user,setByLiked,setUser,setEmaill,setPass,setLiked}=React.useContext(context);
+
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'black' }}>
 
 
         <Toolbar>
 
-            <h1 style={{marginLeft:'40vw'}}>{props.name}</h1>
+            <h1 style={{marginLeft:'40vw'}}>BooKsWorld</h1>
       
           <Typography variant="h6" noWrap component="div">
           </Typography>
@@ -92,13 +88,15 @@ export default function MiniDrawer2(props ) {
 
 
           <IconButton color="inherit" onClick={() => navigate('/')} style={{position:'fixed',left:'0px'}}>
-            <HomeIcon />
+            <HomeIcon  sx={{fontSize:'5vh'}}/> <Typography variant="body1" style={{ fontSize:'3vh',cursor: 'pointer'}}>
+              Home
+            </Typography>
           </IconButton>
 
           <IconButton color="inherit" onClick={openLoginOptions}>
-            <AccountCircleIcon />
+            <AccountCircleIcon sx={{ fontSize:'4vh'}} />
             <Typography variant="body1" style={{ marginLeft: '4px', cursor: 'pointer'}}>
-               Login
+              {user}
             </Typography>
  
 
@@ -118,25 +116,42 @@ export default function MiniDrawer2(props ) {
             }}
           >
         
+            <Box sx={{ p: 2 ,backgroundColor:'grey'}}>
 
-
-
-            <Box sx={{ p: 2 }}>
-
-              <List>
-                <ListItemButton onClick={() => navigate('/Signin')}>
-                  <ListItemText primary="Sign in" />
+              <List >
+                <ListItemButton sx={{backgroundColor:'black',marginBottom:'1vh'  ,'&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    } }}
+                
+                onClick={() => navigate('/Signin')}>
+                  <ListItemText sx={{color:'white'}} primary="Already User" />
                 </ListItemButton>
-                <ListItemButton onClick={()=>navigate('/login')}>
-                  <ListItemText primary="Sign up" />
+                <ListItemButton sx={{backgroundColor:'black',marginBottom:'1vh' , '&:hover': {
+                      backgroundColor: 'blue', // Change background color on hover
+                    }}}
+                 onClick={()=>navigate('/login')}>
+                  <ListItemText sx={{color:'white'}}   primary="New User" />
                 </ListItemButton>
-                <ListItemButton onClick={() => console.log('Option 3')}>
-                  <ListItemText primary="Logout" />
-                </ListItemButton>
+
+                {
+                user!=='LOGIN' &&(
+                <ListItemButton sx={{backgroundColor:'black' , marginBottom:'1vh', '&:hover': {
+                  backgroundColor: 'blue', // Change background color on hover
+                }}} 
+                onClick ={()=>{
+                  setUser('LOGIN');
+                  setPass('');
+                  setEmaill('');
+                  setLiked([]);
+                     
+                  }}>
+                  <ListItemText sx={{color:'white'}}  primary="Logout"  />
+                </ListItemButton>) }
+
               </List>
             </Box>
           </Popover>
-        </Toolbar>
+          </Toolbar>
       </AppBar>
    
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
