@@ -120,6 +120,6 @@ app.post('/register', async (req, res) => {
 
 
 app.listen(process.env.PORT, () => {
-  console.log("Server is running on port");
+  console.log("Server started running");
 });
 
